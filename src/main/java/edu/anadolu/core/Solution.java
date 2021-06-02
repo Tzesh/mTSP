@@ -1,9 +1,9 @@
 package edu.anadolu.core;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static edu.anadolu.utils.TurkishNetwork.cities;
@@ -18,7 +18,8 @@ public class Solution {
     public Solution(List<Integer> depots, List<List<Integer>> routes) {
         this.depots = depots;
         this.routes = routes;
-        cost();
+
+        calculateCost();
     }
 
     public Solution(Solution solution) {
@@ -35,12 +36,12 @@ public class Solution {
         }
         this.depots = depotList;
         this.routes = routeList;
-        cost();
+
+        calculateCost();
     }
 
     public void swapNodesInRoute() {
         final int i = rand.nextInt(routes.size());
-
 
         if (routes.get(i).size() > 3) {
             final List<Integer> collect = rand.ints(1, routes.get(i).size() - 1)
@@ -48,41 +49,32 @@ public class Solution {
                     .limit(2)
                     .boxed()
                     .collect(Collectors.toList());
-
             Collections.swap(routes.get(i), collect.get(0), collect.get(1));
-
-
         }
-        cost();
+
+        calculateCost();
     }
 
     public void swapHubWithNodeInRoute() {
 
 
         int randomDepot = depots.size() == 0 ? 1 : rand.nextInt(depots.size());
-        int randomhub = rand.nextInt(routes.size());
-        int indexinrandomhub = rand.nextInt((routes.get(randomhub).size() - 1) - 1) + 1;
+        int randomHub = rand.nextInt(routes.size());
+        int IndexOfRandomHub = rand.nextInt((routes.get(randomHub).size() - 1) - 1) + 1;
 
+        final int depot = routes.get(randomHub).get(IndexOfRandomHub);
+        final int existing = depots.get(randomDepot);
+        depots.set(randomDepot, depot);
+        routes.get(randomHub).set(IndexOfRandomHub, existing);
 
-        final int elemWillBeDepot = routes.get(randomhub).get(indexinrandomhub);
-        final int depotWillDelete = depots.get(randomDepot);
-        depots.set(randomDepot, elemWillBeDepot);
-//        System.out.println("randomDepot" + randomDepot);
-        routes.get(randomhub).set(indexinrandomhub, depotWillDelete);
-
-//        System.out.println("elemWillBeDepot" + elemWillBeDepot);
-//        System.out.println("depotWillDelete" + depotWillDelete);
-
-
-        for (int i = 0; i < routes.size(); i++) {
-            if (routes.get(i).get(0) == depotWillDelete) {
-                routes.get(i).set(0, elemWillBeDepot);
-                routes.get(i).set(routes.get(i).size() - 1, elemWillBeDepot);
+        for (List<Integer> route : routes) {
+            if (route.get(0) == existing) {
+                route.set(0, depot);
+                route.set(route.size() - 1, depot);
             }
         }
 
-
-        cost();
+        calculateCost();
     }
 
 
@@ -96,22 +88,18 @@ public class Solution {
             int first = rand.nextInt(routes.get(collect.get(0)).size() - 1 - 1) + 1;
             int second = rand.nextInt(routes.get(collect.get(1)).size() - 1 - 1) + 1;
 
+            int firstNode = routes.get(collect.get(0)).get(first);
+            int secondNode = routes.get(collect.get(1)).get(second);
 
-            int felem = routes.get(collect.get(0)).get(first);
-            int selem = routes.get(collect.get(1)).get(second);
-
-
-            routes.get(collect.get(0)).set(first, selem);
-            routes.get(collect.get(1)).set(second, felem);
-
-
+            routes.get(collect.get(0)).set(first, secondNode);
+            routes.get(collect.get(1)).set(second, firstNode);
         }
-        cost();
+
+        calculateCost();
     }
 
     public void insertNodeInRoute() {
         final int i = rand.nextInt(routes.size());
-
 
         if (routes.get(i).size() > 4) {
             final List<Integer> collect = rand.ints(1, routes.get(i).size() - 2)
@@ -122,17 +110,12 @@ public class Solution {
 
 
             Integer elemWillRemove = routes.get(i).get(collect.get(0));
-            Integer second = routes.get(i).get(collect.get(1));
-
 
             routes.get(i).remove(elemWillRemove);
-
             routes.get(i).add((collect.get(1)), elemWillRemove);
-
-
         }
 
-        cost();
+        calculateCost();
     }
 
     public void insertNodeBetweenRoutes() {
@@ -152,43 +135,108 @@ public class Solution {
 
 
             if (routes.get(collect.get(0)).size() > 3) {
-
                 routes.get(collect.get(0)).set(first, selem);
                 routes.get(collect.get(1)).set(second, felem);
-
                 Integer elemWillRemove = routes.get(collect.get(0)).get(first);
-
                 routes.get(collect.get(0)).remove(elemWillRemove);
-
                 routes.get(collect.get(1)).add(second + 1, elemWillRemove);
-
-
             }
 
         }
 
-        cost();
+        calculateCost();
     }
 
-    public void print(int numSalesmen) {
-
+    public void print(int numOfSalesman, boolean verbose, boolean write, boolean heuristics) {
+        List cityIndexes = Arrays.asList(cities);
         for (int i = 0; i < routes.size(); i++) {
             final List<Integer> list = routes.get(i);
 
-            if ((i % numSalesmen) == 0) {
-                System.out.println("Depot" + (i / numSalesmen + 1) + ": " + cities[depots.get(i / numSalesmen)]);
+            if ((i % numOfSalesman) == 0) {
+                System.out.println("Depot" + (i / numOfSalesman + 1) + ": " + cities[depots.get(i / numOfSalesman)]);
             }
-            System.out.print("  Route:" + (i % numSalesmen + 1) + " ");
+
+            System.out.print(" Route" + (i % numOfSalesman + 1) + ": ");
 
             for (int j = 0; j < list.size(); j++) {
                 if (j != 0 && j != list.size() - 1)
-                    System.out.print(cities[list.get(j)] + (j != list.size() - 2 ? ", " : " "));
+                    System.out.print((verbose ? cities[list.get(j)] : cityIndexes.indexOf(cities[list.get(j)])) + (j != list.size() - 2 ? ", " : " "));
             }
             System.out.println();
         }
+
+        if (write) {
+            List<String> routes = new ArrayList<>();
+            int numberOfDepots = depots.size();
+
+            for (int i = 0; i < this.routes.size(); i++) {
+                StringBuilder stringBuilder = new StringBuilder();
+                StringJoiner stringJoiner = new StringJoiner(" ");
+                if ((i % numOfSalesman) == 0) {
+
+                    stringBuilder.append("{depots : \"").append(this.depots.get(i / numOfSalesman)).append("\",");
+                }
+
+                for (int j = 0; j < this.routes.get(i).size(); j++) {
+
+                    if (j != 0 && j != this.routes.get(i).size() - 1) {
+                        stringJoiner.add(String.valueOf(this.routes.get(i).get(j)));
+
+                    }
+                }
+
+                routes.add(stringJoiner.toString());
+                stringBuilder.append(stringJoiner);
+
+                stringBuilder.append("}");
+            }
+
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("{\n  \"" + "solution" + "\": [");
+
+            for (int i = 0; i < this.routes.size(); i++) {
+
+                if ((i % numOfSalesman) == 0) {
+                    stringBuilder.append("\n    {\n      \"depot\": \"" + depots.get(i / numOfSalesman) + "\",");
+                    stringBuilder.append("\n      \"routes\":" + " [\n");
+                }
+
+                stringBuilder.append(",\"");
+
+                stringBuilder.append(routes.get(i));
+                stringBuilder.append("\"");
+
+                if ((i % numOfSalesman == numOfSalesman - 1)) {
+                    stringBuilder.append("\n      ]");
+                    stringBuilder.append(i == this.routes.size() - 1 ? "\n    }" : "\n    },");
+                }
+            }
+
+            stringBuilder.append("\n  ]\n}");
+
+            final String replace = stringBuilder.toString().replace("\n,", "\n        ").replace("}{", "},\n{").replace("\",\"", "\",\n        \"");
+
+            try {
+                Files.write(Paths.get("solution_d" + numberOfDepots + "s" + numOfSalesman + ".json"), replace.getBytes());
+            } catch (IOException e) {
+                System.err.println("Unable to write json");
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println("**Total cost is " + this.cost);
+
+        if (heuristics) {
+            System.out.println("Heuristically Statistics");
+            System.out.println("    \"swapHubWithNodeInRoute\": " + mTSP.swapHubWithNodeInRoute + ",");
+            System.out.println("    \"insertNodeBetweenRoutes\": " + mTSP.insertNodeBetweenRoutes + ",");
+            System.out.println("    \"swapNodesInRoute\": " + mTSP.swapNodesInRoute + ",");
+            System.out.println("    \"swapNodesBetweenRoutes\": " + mTSP.swapNodesBetweenRoutes + ",");
+            System.out.println("    \"insertNodeInRoute\": " + mTSP.insertNodeInRoute);
+        }
     }
 
-    void cost() {
+    void calculateCost() {
         cost = 0;
         for (final List<Integer> list : routes) {
             for (int j = 0; j < list.size() - 1; j++) {
