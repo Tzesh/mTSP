@@ -1,20 +1,15 @@
 package edu.anadolu.core;
 
-import edu.anadolu.utils.TurkishNetwork;
+import edu.anadolu.core.soluton.Approach;
+import edu.anadolu.core.soluton.RandomSolution;
+import edu.anadolu.core.soluton.Solution;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class mTSP {
-    private int numDepots;
-    private int numSalesmen;
     private static final Random rand = new Random();
-    private static final String[] cities = TurkishNetwork.cities;
-    private List<Integer> depots;
-    public List<Solution> list;
     public Solution currentSolution;
-    private final List<Integer> numbers0To80 = IntStream.range(0, 81).boxed().collect(Collectors.toList());
 
     public static int swapNodesInRoute;
     public static int swapHubWithNodeInRoute;
@@ -22,22 +17,25 @@ public class mTSP {
     public static int insertNodeInRoute;
     public static int insertNodeBetweenRoutes;
 
-    public mTSP(int numDepots, int numSalesmen) {
-        this.numDepots = numDepots;
-        this.numSalesmen = numSalesmen;
-        depots = rand.ints(0, cities.length)
-                .distinct()
-                .limit(numDepots)
-                .boxed()
-                .collect(Collectors.toList());
-        list = new ArrayList<>();
-        currentSolution = new Solution(depots, toSublist(numbers0To80));
-        list.add(currentSolution);
+    public mTSP(int numDepots, int numSalesmen, Approach approach, boolean isHeuristic) {
+        switch (approach.getSolution()) {
+            case "NNSolution":
+                //currentSolution = new NNSolution(numDepots, numSalesmen);
+                break;
+            case "RandomSolution":
+                currentSolution = new RandomSolution(numDepots, numSalesmen);
+                break;
+            default:
+                break;
+        }
+        currentSolution.solve();
+        if (isHeuristic)
+            IntStream.range(0, 5_000_000).parallel().forEach(a -> heuristicOperations());
     }
 
 
-    public void randomSolution() {
-        Solution copy = new Solution(currentSolution);
+    public void heuristicOperations() {
+        Solution copy = currentSolution.copy();
 
         int i = rand.nextInt(5);
         if (i == 0) {
@@ -79,28 +77,5 @@ public class mTSP {
         if (copy.cost < currentSolution.cost) {
             currentSolution = copy;
         }
-    }
-
-
-    private List<List<Integer>> toSublist(List<Integer> lists) {
-        Collections.shuffle(lists);
-        return partition(lists, (numDepots * numSalesmen));
-    }
-
-    private List<List<Integer>> partition(List<Integer> iterable, int partitions) {
-        iterable.removeAll(depots);
-        List<List<Integer>> result = new ArrayList<>(partitions);
-        for (int i = 0; i < partitions; i++) {
-            result.add(new ArrayList<>());
-        }
-        Iterator<Integer> iterator = iterable.iterator();
-        for (int i = 0; iterator.hasNext(); i++)
-            result.get(i % partitions).add(iterator.next());
-        for (int i = 0; i < result.size(); i++) {
-            result.get(i).add(0, depots.get(i / numSalesmen));
-            result.get(i).add(result.get(i).size(), depots.get(i / numSalesmen));
-        }
-
-        return result;
     }
 }
