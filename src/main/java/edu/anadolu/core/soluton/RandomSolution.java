@@ -28,7 +28,7 @@ public class RandomSolution extends Solution {
             int tempCost = calculateCost(routes);
             if (tempCost < cost) {
                 this.routes = routes;
-                this.cost = cost;
+                this.cost = tempCost;
             }
         });
         calculateCost();
