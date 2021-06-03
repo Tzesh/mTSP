@@ -18,16 +18,27 @@ public class App {
             return;
         }
 
+        mTSP best;
+
         mTSP mTSP = new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.RANDOM, false);
-        mTSP.currentSolution.print(params.getNumSalesmen(), params.getVerbose(), true, false);
+        mTSP.currentSolution.print(params.getNumSalesmen(), params.getVerbose(), false, false);
+        best = mTSP;
 
         mTSP = new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.RANDOM, true);
-        mTSP.currentSolution.print(params.getNumSalesmen(), params.getVerbose(), true, true);
+        mTSP.currentSolution.print(params.getNumSalesmen(), params.getVerbose(), false, true);
+        if (mTSP.currentSolution.cost < best.currentSolution.cost) best = mTSP;
+
 
         mTSP = new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.NN, false);
-        mTSP.currentSolution.print(params.getNumSalesmen(), params.getVerbose(), true, false);
+        mTSP.currentSolution.print(params.getNumSalesmen(), params.getVerbose(), false, false);
+        if (mTSP.currentSolution.cost < best.currentSolution.cost) best = mTSP;
+
 
         mTSP = new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.NN, true);
-        mTSP.currentSolution.print(params.getNumSalesmen(), params.getVerbose(), true, true);
+        mTSP.currentSolution.print(params.getNumSalesmen(), params.getVerbose(), false, true);
+        if (mTSP.currentSolution.cost < best.currentSolution.cost) best = mTSP;
+
+        System.out.println("Best solution has cost: " + best.currentSolution.cost);
+        best.currentSolution.print(params.getNumSalesmen(), params.getVerbose(), true, true);
     }
 }
