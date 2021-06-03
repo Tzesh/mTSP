@@ -1,8 +1,9 @@
 package edu.anadolu.core;
 
-import edu.anadolu.core.soluton.Approach;
-import edu.anadolu.core.soluton.RandomSolution;
-import edu.anadolu.core.soluton.Solution;
+import edu.anadolu.core.solution.NNSolution;
+import edu.anadolu.utils.Approach;
+import edu.anadolu.core.solution.RandomSolution;
+import edu.anadolu.core.solution.Solution;
 
 import java.util.*;
 import java.util.stream.IntStream;
@@ -20,7 +21,7 @@ public class mTSP {
     public mTSP(int numDepots, int numSalesmen, Approach approach, boolean isHeuristic) {
         switch (approach.getSolution()) {
             case "NNSolution":
-                //currentSolution = new NNSolution(numDepots, numSalesmen);
+                currentSolution = new NNSolution(numDepots, numSalesmen, 4);
                 break;
             case "RandomSolution":
                 currentSolution = new RandomSolution(numDepots, numSalesmen);
@@ -33,9 +34,8 @@ public class mTSP {
             IntStream.range(0, 5_000_000).parallel().forEach(a -> heuristicOperations());
     }
 
-
     public void heuristicOperations() {
-        Solution copy = currentSolution.copy();
+        Solution copy = new Solution(currentSolution);
 
         int i = rand.nextInt(5);
         if (i == 0) {

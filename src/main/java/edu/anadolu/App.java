@@ -3,10 +3,8 @@ package edu.anadolu;
 import com.lexicalscope.jewel.cli.ArgumentValidationException;
 import com.lexicalscope.jewel.cli.CliFactory;
 import edu.anadolu.core.mTSP;
-import edu.anadolu.core.soluton.Approach;
+import edu.anadolu.utils.Approach;
 import edu.anadolu.utils.Params;
-
-import java.util.stream.IntStream;
 
 public class App {
 
@@ -22,5 +20,14 @@ public class App {
 
         mTSP mTSP = new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.RANDOM, false);
         mTSP.currentSolution.print(params.getNumSalesmen(), params.getVerbose(), true, false);
+
+        mTSP = new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.RANDOM, true);
+        mTSP.currentSolution.print(params.getNumSalesmen(), params.getVerbose(), true, true);
+
+        mTSP = new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.NN, false);
+        mTSP.currentSolution.print(params.getNumSalesmen(), params.getVerbose(), true, false);
+
+        mTSP = new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.NN, true);
+        mTSP.currentSolution.print(params.getNumSalesmen(), params.getVerbose(), true, true);
     }
 }

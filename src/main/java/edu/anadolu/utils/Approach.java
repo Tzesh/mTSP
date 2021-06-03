@@ -1,4 +1,4 @@
-package edu.anadolu.core.soluton;
+package edu.anadolu.utils;
 
 public enum Approach {
     NN("NNSolution"),

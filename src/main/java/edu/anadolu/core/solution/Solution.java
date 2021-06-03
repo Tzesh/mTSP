@@ -1,4 +1,4 @@
-package edu.anadolu.core.soluton;
+package edu.anadolu.core.solution;
 
 import edu.anadolu.core.mTSP;
 
@@ -27,6 +27,20 @@ public class Solution {
                 .limit(numDepots)
                 .boxed()
                 .collect(Collectors.toList());
+    }
+
+    public Solution(Solution solution) {
+        List<List<Integer>> routeList = new ArrayList<>();
+        List<Integer> depotList = new ArrayList<>(solution.depots);
+        for (int i = 0; i < solution.routes.size(); i++) {
+            routeList.add(new ArrayList<Integer>());
+            for (int j = 0; j < solution.routes.get(i).size(); j++) {
+                routeList.get(i).add(solution.routes.get(i).get(j));
+            }
+        }
+        this.depots = depotList;
+        this.routes = routeList;
+        calculateCost();
     }
 
     public void solve() {
@@ -223,7 +237,7 @@ public class Solution {
         }
     }
 
-    void calculateCost() {
+    public void calculateCost() {
         cost = 0;
         for (final List<Integer> list : routes) {
             for (int j = 0; j < list.size() - 1; j++) {
@@ -232,14 +246,31 @@ public class Solution {
         }
     }
 
-    public Solution copy() {
-        Solution copy = new Solution(numDepots, numSalesmen);
-        copy.inheritInformation(depots, routes);
-        return copy;
+    protected int calculateCost(List<List<Integer>> routes) {
+        int cost = 0;
+        for (final List<Integer> list : routes) {
+            for (int j = 0; j < list.size() - 1; j++) {
+                cost += distance[list.get(j)][list.get(j + 1)];
+            }
+        }
+        return cost;
     }
 
-    protected void inheritInformation(List<Integer> depots, List<List<Integer>> routes) {
-        this.depots = depots;
-        this.routes = routes;
+    protected List<List<Integer>> partition(List<Integer> iterable, int partitions) {
+        List<Integer> depots = new ArrayList<>(this.depots);
+        iterable.removeAll(depots);
+        List<List<Integer>> result = new ArrayList<>(partitions);
+        for (int i = 0; i < partitions; i++) {
+            result.add(new ArrayList<>());
+        }
+        Iterator<Integer> iterator = iterable.iterator();
+        for (int i = 0; iterator.hasNext(); i++)
+            result.get(i % partitions).add(iterator.next());
+        for (int i = 0; i < result.size(); i++) {
+            result.get(i).add(0, depots.get(i / numSalesmen));
+            result.get(i).add(result.get(i).size(), depots.get(i / numSalesmen));
+        }
+
+        return result;
     }
 }
