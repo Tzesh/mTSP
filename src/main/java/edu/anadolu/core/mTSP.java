@@ -21,7 +21,7 @@ public class mTSP {
     public mTSP(int numDepots, int numSalesmen, Approach approach, boolean isHeuristic) {
         switch (approach.getSolution()) {
             case "NNSolution":
-                currentSolution = new NNSolution(numDepots, numSalesmen, 4);
+                currentSolution = new NNSolution(numDepots, numSalesmen, 5);
                 break;
             case "RandomSolution":
                 currentSolution = new RandomSolution(numDepots, numSalesmen);

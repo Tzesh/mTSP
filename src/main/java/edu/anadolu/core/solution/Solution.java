@@ -22,11 +22,6 @@ public class Solution {
     public Solution(int numDepots, int numSalesmen) {
         this.numDepots = numDepots;
         this.numSalesmen = numSalesmen;
-        depots = rand.ints(0, cities.length)
-                .distinct()
-                .limit(numDepots)
-                .boxed()
-                .collect(Collectors.toList());
     }
 
     public Solution(Solution solution) {

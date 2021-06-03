@@ -26,7 +26,9 @@ public class NNSolution extends Solution {
             Integer closestCity = getClosestCity(currentCity, primaryRoute);
             primaryRoute.add(closestCity);
         }
+        this.depots = determineDepots(primaryRoute);
         this.routes = partition(primaryRoute, (numDepots * numSalesmen));
+        calculateCost();
     }
 
     public Integer getClosestCity(Integer cityIndex, List<Integer> currentRoute) {
@@ -41,5 +43,14 @@ public class NNSolution extends Solution {
             }
         }
         return closestIndex;
+    }
+
+    public List<Integer> determineDepots(List<Integer> route) {
+        List<Integer> depots = new ArrayList<>();
+        int depotLimits = route.size() / numDepots;
+        for (int i = 0; i < numDepots; i++) {
+            depots.add(route.get(i * depotLimits));
+        }
+        return depots;
     }
 }

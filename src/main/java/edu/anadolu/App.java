@@ -38,7 +38,7 @@ public class App {
         mTSP.currentSolution.print(params.getNumSalesmen(), params.getVerbose(), false, true);
         if (mTSP.currentSolution.cost < best.currentSolution.cost) best = mTSP;
 
-        System.out.println("Best solution has cost: " + best.currentSolution.cost);
+        System.out.println("**Best solution has cost " + best.currentSolution.cost);
         best.currentSolution.print(params.getNumSalesmen(), params.getVerbose(), true, true);
     }
 }

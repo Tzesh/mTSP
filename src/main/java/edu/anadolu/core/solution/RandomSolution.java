@@ -2,13 +2,22 @@ package edu.anadolu.core.solution;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static edu.anadolu.utils.TurkishNetwork.cities;
 
 public class RandomSolution extends Solution {
 
     public RandomSolution(int numDepots, int numSalesmen) {
         super(numDepots, numSalesmen);
+        Random rand = new Random();
+        depots = rand.ints(0, cities.length)
+                .distinct()
+                .limit(numDepots)
+                .boxed()
+                .collect(Collectors.toList());
         solve();
     }
 
