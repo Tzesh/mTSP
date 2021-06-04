@@ -6,8 +6,13 @@ import edu.anadolu.core.mTSP;
 import edu.anadolu.utils.Approach;
 import edu.anadolu.utils.Params;
 
-public class App {
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.IntStream;
 
+public class App {
+    private static AtomicReference<mTSP> best;
+    private static AtomicInteger[] minCost = {new AtomicInteger(Integer.MAX_VALUE)};
     public static void main(String[] args) {
 
         Params params;
@@ -18,29 +23,34 @@ public class App {
             return;
         }
 
-        mTSP best;
 
+        IntStream.range(0, 1).parallel().forEach(a -> {
+            doAllSolutions(params);
+        });
+
+        System.out.println("\n**Best solution has cost " + best.get().currentSolution.cost);
+        best.get().currentSolution.print(params.getNumSalesmen(), params.getVerbose(), true, true);
+    }
+
+    public static void doAllSolutions(Params params) {
         System.out.println("**Random Solution without Heuristics**");
-        mTSP mTSP = new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.RANDOM, false);
-        mTSP.currentSolution.print(params.getNumSalesmen(), params.getVerbose(), false, false);
-        best = mTSP;
+        AtomicReference<mTSP> mTSP = new AtomicReference<>(new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.RANDOM, false));
+        AtomicReference<edu.anadolu.core.mTSP> bestmTSP = mTSP;
 
         System.out.println("\n**Random Solution with Heuristics**");
-        mTSP = new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.RANDOM, true);
-        mTSP.currentSolution.print(params.getNumSalesmen(), params.getVerbose(), false, true);
-        if (mTSP.currentSolution.cost < best.currentSolution.cost) best = mTSP;
+        mTSP.set(new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.RANDOM, true));
+        if (mTSP.get().currentSolution.cost < bestmTSP.get().currentSolution.cost) bestmTSP = mTSP;
 
         System.out.println("\n**NN Solution without Heuristics**");
-        mTSP = new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.NN, false);
-        mTSP.currentSolution.print(params.getNumSalesmen(), params.getVerbose(), false, false);
-        if (mTSP.currentSolution.cost < best.currentSolution.cost) best = mTSP;
+        mTSP.set(new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.NN, false));
+        if (mTSP.get().currentSolution.cost < bestmTSP.get().currentSolution.cost) bestmTSP = mTSP;
 
         System.out.println("\n**NN Solution with Heuristics**");
-        mTSP = new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.NN, true);
-        mTSP.currentSolution.print(params.getNumSalesmen(), params.getVerbose(), false, true);
-        if (mTSP.currentSolution.cost < best.currentSolution.cost) best = mTSP;
+        mTSP.set(new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.NN, true));
 
-        System.out.println("\n**Best solution has cost " + best.currentSolution.cost);
-        best.currentSolution.print(params.getNumSalesmen(), params.getVerbose(), true, true);
+        if (bestmTSP.get().currentSolution.cost < minCost[0].get()) {
+            minCost[0] = new AtomicInteger(bestmTSP.get().currentSolution.cost);
+            best = bestmTSP;
+        }
     }
 }
