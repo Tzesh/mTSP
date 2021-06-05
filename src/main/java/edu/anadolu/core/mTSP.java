@@ -34,7 +34,7 @@ public class mTSP {
             IntStream.range(0, 5_000_000).parallel().forEach(a -> heuristicOperations());
     }
 
-    public void heuristicOperations() {
+    public synchronized void heuristicOperations() {
         Solution copy = new Solution(currentSolution);
 
         int i = rand.nextInt(5);
