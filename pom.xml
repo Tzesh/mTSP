@@ -21,8 +21,8 @@
                 <version>3.7.0</version>
                 <configuration>
                     <encoding>utf-8</encoding>
-                    <source>1.9</source>
-                    <target>1.9</target>
+                    <source>10</source>
+                    <target>10</target>
                 </configuration>
             </plugin>
 
