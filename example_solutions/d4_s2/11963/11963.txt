@@ -1,0 +1,22 @@
+**Best solution has cost 11963
+Depot1: KOCAELİ (İZMİT)
+ Route1: YALOVA, BURSA, BALIKESİR, MANİSA, İZMİR, AYDIN, MUĞLA, DENİZLİ, UŞAK, AFYONKARAHİSAR, KÜTAHYA, ESKİŞEHİR, BİLECİK, SAKARYA (ADAPAZARI) 
+ Route2: BOLU, ANKARA, ÇANKIRI, KIRIKKALE, KIRŞEHİR, YOZGAT, ÇORUM, AMASYA, TOKAT, SİVAS, BAYBURT, ERZURUM, AĞRI, IĞDIR, KARS, ARDAHAN, ARTVİN, RİZE, TRABZON, GİRESUN, ORDU, SAMSUN, SİNOP, KASTAMONU, KARABÜK, BARTIN, ZONGULDAK, TEKİRDAĞ, ÇANAKKALE, EDİRNE, KIRKLARELİ, İSTANBUL 
+Depot2: ERZİNCAN
+ Route1: TUNCELİ, ELAZIĞ, MALATYA 
+ Route2: GÜMÜŞHANE 
+Depot3: AKSARAY
+ Route1: KONYA, ISPARTA, BURDUR, ANTALYA, KARAMAN, NİĞDE, KAYSERİ, NEVŞEHİR 
+ Route2: ADANA, MERSİN 
+Depot4: DİYARBAKIR
+ Route1: ADIYAMAN, KAHRAMANMARAŞ, OSMANİYE, HATAY, KİLİS, GAZİANTEP, ŞANLIURFA 
+ Route2: BİNGÖL, MUŞ, BİTLİS, BATMAN, SİİRT, VAN, HAKKARİ, ŞIRNAK, MARDİN 
+**Total cost is 11963
+Heuristically Statistics
+    "swapHubWithNodeInRoute": 56762,
+    "insertNodeBetweenRoutes": 188068,
+    "swapNodesInRoute": 90866,
+    "swapNodesBetweenRoutes": 116445,
+    "insertNodeInRoute": 92773
+
+Process finished with exit code 0

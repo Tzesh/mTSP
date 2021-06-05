@@ -1,0 +1,25 @@
+**NN Solution with Heuristics**
+
+**Best solution has cost 11983
+Depot1: KARAMAN
+ Route1: KONYA 
+ Route2: MERSİN, ADANA, OSMANİYE, HATAY, KİLİS, GAZİANTEP, KAHRAMANMARAŞ, KAYSERİ, KIRŞEHİR, YOZGAT, KIRIKKALE, ANKARA, AFYONKARAHİSAR, UŞAK, KÜTAHYA, ESKİŞEHİR, BİLECİK, YALOVA, BURSA, BALIKESİR, MANİSA, İZMİR, AYDIN, MUĞLA, DENİZLİ, BURDUR, ISPARTA, ANTALYA 
+Depot2: DİYARBAKIR
+ Route1: BATMAN 
+ Route2: MARDİN, ŞANLIURFA, ADIYAMAN 
+Depot3: GİRESUN
+ Route1: ORDU 
+ Route2: ERZİNCAN, TUNCELİ, BİNGÖL, MUŞ, BİTLİS, SİİRT, ŞIRNAK, HAKKARİ, VAN, IĞDIR, AĞRI, BAYBURT, GÜMÜŞHANE 
+Depot4: ARDAHAN
+ Route1: ERZURUM, ELAZIĞ, MALATYA, SİVAS, TOKAT, AMASYA, ÇORUM, ÇANKIRI, BOLU, SAKARYA (ADAPAZARI), KOCAELİ (İZMİT), İSTANBUL, KIRKLARELİ, EDİRNE, ÇANAKKALE, TEKİRDAĞ, ZONGULDAK, BARTIN, KARABÜK, KASTAMONU, SİNOP, SAMSUN, TRABZON, RİZE, ARTVİN 
+ Route2: KARS 
+Depot5: NEVŞEHİR
+ Route1: AKSARAY 
+ Route2: NİĞDE 
+**Total cost is 11983
+Heuristically Statistics
+    "swapHubWithNodeInRoute": 31166,
+    "insertNodeBetweenRoutes": 94624,
+    "swapNodesInRoute": 49306,
+    "swapNodesBetweenRoutes": 59003,
+    "insertNodeInRoute": 46950
