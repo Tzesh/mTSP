@@ -16,6 +16,9 @@ public interface Params {
     @Option(description = "Number of iterations (4 different solutions per each)", shortName = "i", longName = "iteration", defaultValue = "1")
     int getNumberOfIterations();
 
+    @Option(description = "Plate number of city which will be the main(initial) depot of NN", shortName = "p", longName = "mainDepot", defaultValue = "38")
+    int getPlateNumberOfMainDepot();
+
     @Option(helpRequest = true, description = "display help", shortName = "h")
     boolean getHelp();
 

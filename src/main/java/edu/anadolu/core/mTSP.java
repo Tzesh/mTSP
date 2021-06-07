@@ -18,10 +18,10 @@ public class mTSP {
     public static int insertNodeInRoute;
     public static int insertNodeBetweenRoutes;
 
-    public mTSP(int numDepots, int numSalesmen, Approach approach, boolean isHeuristic) {
+    public mTSP(int numDepots, int numSalesmen, Approach approach, boolean isHeuristic, int mainDepot) {
         switch (approach.getSolution()) {
             case "NNSolution":
-                currentSolution = new NNSolution(numDepots, numSalesmen, 69);
+                currentSolution = new NNSolution(numDepots, numSalesmen, mainDepot - 1);
                 break;
             case "RandomSolution":
                 currentSolution = new RandomSolution(numDepots, numSalesmen);
