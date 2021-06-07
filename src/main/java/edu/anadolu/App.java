@@ -26,6 +26,10 @@ public class App {
             return;
         }
 
+        if (params.getNumSalesmen() < 1 || params.getNumDepots() < 1) {
+            System.out.println("Number of salesmen and number of depots should be a positive integer value.");
+            System.exit(0);
+        }
 
         IntStream.range(0, 1).parallel().forEach(a -> {
             doAllSolutions(params);
