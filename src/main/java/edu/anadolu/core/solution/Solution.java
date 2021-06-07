@@ -76,6 +76,7 @@ public class Solution {
 
 
     public void swapNodesBetweenRoutes() {
+        if (routes.size() == 1) return;
         final List<Integer> collect = rand.ints(0, routes.size())
                 .distinct()
                 .limit(2)
@@ -116,6 +117,7 @@ public class Solution {
     }
 
     public void insertNodeBetweenRoutes() {
+        if (routes.size() == 1) return;
         final List<Integer> collect = rand.ints(0, routes.size())
                 .distinct()
                 .limit(2)

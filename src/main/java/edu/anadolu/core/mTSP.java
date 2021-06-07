@@ -1,11 +1,11 @@
 package edu.anadolu.core;
 
 import edu.anadolu.core.solution.NNSolution;
-import edu.anadolu.utils.Approach;
 import edu.anadolu.core.solution.RandomSolution;
 import edu.anadolu.core.solution.Solution;
+import edu.anadolu.utils.Approach;
 
-import java.util.*;
+import java.util.Random;
 import java.util.stream.IntStream;
 
 public class mTSP {
@@ -40,42 +40,30 @@ public class mTSP {
         int i = rand.nextInt(5);
         if (i == 0) {
             copy.swapNodesInRoute();
-            if (copy.cost < currentSolution.cost) {
+            if (copy.cost < currentSolution.cost)
                 swapNodesInRoute++;
-            }
         }
-
         if (i == 1) {
             copy.swapHubWithNodeInRoute();
-            if (copy.cost < currentSolution.cost) {
+            if (copy.cost < currentSolution.cost)
                 swapHubWithNodeInRoute++;
-            }
-
         }
-
         if (i == 2) {
             copy.swapNodesBetweenRoutes();
-            if (copy.cost < currentSolution.cost) {
+            if (copy.cost < currentSolution.cost)
                 swapNodesBetweenRoutes++;
-            }
         }
-
         if (i == 3) {
             copy.insertNodeInRoute();
-            if (copy.cost < currentSolution.cost) {
+            if (copy.cost < currentSolution.cost)
                 insertNodeInRoute++;
-            }
         }
-
         if (i == 4) {
             copy.insertNodeBetweenRoutes();
-            if (copy.cost < currentSolution.cost) {
+            if (copy.cost < currentSolution.cost)
                 insertNodeBetweenRoutes++;
-            }
         }
-
-        if (copy.cost < currentSolution.cost) {
+        if (copy.cost < currentSolution.cost)
             currentSolution = copy;
-        }
     }
 }
