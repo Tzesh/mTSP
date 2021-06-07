@@ -10,11 +10,7 @@ In this project, we've tried to look for the best combination to solve this proj
 For the tests that we've done so far, 'Nearest Neighbor solution with Heuristics algorithms' is the best solution that gives minimum cost. You can easily browse these solutions in 'example_solutions' folder.
 
 ## Usage
-This application does both 4 solutions for once. You can easily change that value to how many iterations do you want to do. All you have to do is changing the `
-IntStream.range(0, <Iteration_Number>).parallel().forEach(a -> {
-            doAllSolutions(params);
-        });
-` <Iteration_Number> in App class. Or without recompiling you just use in that way by downloading the latest version in releases. Just compile or download the latest version and then run the mTSP.jar with command `java -jar mTSP.jar`. By default application will build a route with 5 depots and 2 salesmen per depot. You can use these parameters:
+This application does both 4 solutions for once. You can easily change that value to how many iterations do you want to do. All you have to do is changing the -i parameter while executing. Just compile or download the latest version and then run the mTSP.jar with command `java -jar mTSP.jar`. By default application will build a route with 5 depots and 2 salesmen per depot. You can use these parameters:
 * -d 'number of depots': to specify the number of depots (default 5)
 * -s 'number of salesmen per depot': to set the number of salesmen per depot (default 2)
 * -v: to use verbose mode which allows you to see city names instead of indexes (default false)
