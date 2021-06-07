@@ -18,6 +18,7 @@ IntStream.range(0, <Iteration_Number>).parallel().forEach(a -> {
 * -d 'number of depots': to specify the number of depots (default 5)
 * -s 'number of salesmen per depot': to set the number of salesmen per depot (default 2)
 * -v: to use verbose mode which allows you to see city names instead of indexes (default false)
+* -i: to specify how many iterations will be generated for both 4 approaches (default 1)
 For instance, you can use `java -jar mTSP.jar -d 7 -s 5 -v` to generate a route with using these approaches which has 7 depots and 5 salesmen per depot, and also application will print city names instead of indexes.
 ![Footage 1](https://imgur.com/3Rkkh5k.png)
 ![Footage 2](https://imgur.com/7HJWDEk.png)
