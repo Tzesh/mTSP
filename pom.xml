@@ -4,7 +4,7 @@
     <groupId>edu.anadolu</groupId>
     <artifactId>mTSP</artifactId>
     <packaging>jar</packaging>
-    <version>1.01</version>
+    <version>1.02</version>
     <name>mTSP</name>
     <url>http://maven.apache.org</url>
 
