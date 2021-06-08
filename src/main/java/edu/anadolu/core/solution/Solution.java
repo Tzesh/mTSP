@@ -35,6 +35,8 @@ public class Solution {
         }
         this.depots = depotList;
         this.routes = routeList;
+        this.numDepots = solution.numDepots;
+        this.numSalesmen = solution.numSalesmen;
         calculateCost();
     }
 
