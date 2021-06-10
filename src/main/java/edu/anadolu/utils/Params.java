@@ -19,7 +19,7 @@ public interface Params {
     @Option(description = "plate number of city which will be the main(initial) depot of NN", shortName = "p", longName = "mainDepot", defaultValue = "38")
     int getPlateNumberOfMainDepot();
 
-    @Option(description = "maintain the main depot as depot in NN solutions", shortName = "m", longName = "maintain")
+    @Option(description = "maintain the main depot as main depot in NN solutions", shortName = "m", longName = "maintain")
     boolean getMaintainMain();
 
     @Option(helpRequest = true, description = "display help", shortName = "h")
