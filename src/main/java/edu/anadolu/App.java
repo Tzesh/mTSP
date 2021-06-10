@@ -8,13 +8,11 @@ import edu.anadolu.utils.Params;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
 public class App {
     private static AtomicReference<mTSP> best;
-    private static AtomicInteger[] minCost = {new AtomicInteger(Integer.MAX_VALUE)};
 
     public static void main(String[] args) {
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8)); // to avoid OS dependent outputs
@@ -36,32 +34,37 @@ public class App {
         });
 
         System.out.println("\n**Best solution has cost " + best.get().currentSolution.cost);
-        best.get().currentSolution.print(params.getNumSalesmen(), params.getVerbose(), true, true);
+        best.get().currentSolution.print(params.getVerbose(), true, true);
     }
 
     public static void doAllSolutions(Params params) {
         System.out.println("**Random Solution without Heuristics**");
         AtomicReference<mTSP> mTSP = new AtomicReference<>(new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.RANDOM, false, params.getPlateNumberOfMainDepot()));
-        mTSP.get().currentSolution.print(params.getNumSalesmen(), params.getVerbose(), false, false);
-        AtomicReference<edu.anadolu.core.mTSP> best = mTSP;
+        mTSP.get().currentSolution.print(params.getVerbose(), false, false);
+        AtomicReference<edu.anadolu.core.mTSP> bestMTSP = mTSP;
 
         System.out.println("\n**Random Solution with Heuristics**");
         mTSP.set(new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.RANDOM, true, params.getPlateNumberOfMainDepot()));
-        mTSP.get().currentSolution.print(params.getNumSalesmen(), params.getVerbose(), false, true);
-        if (mTSP.get().currentSolution.cost < best.get().currentSolution.cost) best = mTSP;
+        mTSP.get().currentSolution.print(params.getVerbose(), false, true);
+        if (mTSP.get().currentSolution.cost < bestMTSP.get().currentSolution.cost) bestMTSP = mTSP;
 
         System.out.println("\n**NN Solution without Heuristics**");
         mTSP.set(new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.NN, false, params.getPlateNumberOfMainDepot()));
-        mTSP.get().currentSolution.print(params.getNumSalesmen(), params.getVerbose(), false, false);
-        if (mTSP.get().currentSolution.cost < best.get().currentSolution.cost) best = mTSP;
+        mTSP.get().currentSolution.print(params.getVerbose(), false, false);
+        if (mTSP.get().currentSolution.cost < bestMTSP.get().currentSolution.cost) bestMTSP = mTSP;
 
         System.out.println("\n**NN Solution with Heuristics**");
         mTSP.set(new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.NN, true, params.getPlateNumberOfMainDepot()));
-        mTSP.get().currentSolution.print(params.getNumSalesmen(), params.getVerbose(), false, true);
+        mTSP.get().currentSolution.print(params.getVerbose(), false, true);
+        if (mTSP.get().currentSolution.cost < bestMTSP.get().currentSolution.cost) bestMTSP = mTSP;
 
-        if (best.get().currentSolution.cost < minCost[0].get()) {
-            minCost[0] = new AtomicInteger(best.get().currentSolution.cost);
-            App.best = best;
+        if (best == null) {
+            best = bestMTSP;
+            return;
+        }
+
+        if (bestMTSP.get().currentSolution.cost < best.get().currentSolution.cost) {
+            best = bestMTSP;
         }
     }
 }

@@ -147,16 +147,16 @@ public class Solution {
         calculateCost();
     }
 
-    public void print(int numOfSalesman, boolean verbose, boolean write, boolean heuristics) {
+    public void print(boolean verbose, boolean write, boolean heuristics) {
         List cityIndexes = Arrays.asList(cities);
         for (int i = 0; i < routes.size(); i++) {
             final List<Integer> list = routes.get(i);
 
-            if ((i % numOfSalesman) == 0) {
-                System.out.println("Depot" + (i / numOfSalesman + 1) + ": " + cities[depots.get(i / numOfSalesman)]);
+            if ((i % numSalesmen) == 0) {
+                System.out.println("Depot" + (i / numSalesmen + 1) + ": " + cities[depots.get(i / numSalesmen)]);
             }
 
-            System.out.print(" Route" + (i % numOfSalesman + 1) + ": ");
+            System.out.print(" Route" + (i % numSalesmen + 1) + ": ");
 
             for (int j = 0; j < list.size(); j++) {
                 if (j != 0 && j != list.size() - 1)
@@ -172,9 +172,9 @@ public class Solution {
             for (int i = 0; i < this.routes.size(); i++) {
                 StringBuilder stringBuilder = new StringBuilder();
                 StringJoiner stringJoiner = new StringJoiner(" ");
-                if ((i % numOfSalesman) == 0) {
+                if ((i % numSalesmen) == 0) {
 
-                    stringBuilder.append("{depots : \"").append(this.depots.get(i / numOfSalesman)).append("\",");
+                    stringBuilder.append("{depots : \"").append(this.depots.get(i / numSalesmen)).append("\",");
                 }
 
                 for (int j = 0; j < this.routes.get(i).size(); j++) {
@@ -196,8 +196,8 @@ public class Solution {
 
             for (int i = 0; i < this.routes.size(); i++) {
 
-                if ((i % numOfSalesman) == 0) {
-                    stringBuilder.append("\n    {\n      \"depot\": \"" + depots.get(i / numOfSalesman) + "\",");
+                if ((i % numSalesmen) == 0) {
+                    stringBuilder.append("\n    {\n      \"depot\": \"" + depots.get(i / numSalesmen) + "\",");
                     stringBuilder.append("\n      \"routes\":" + " [\n");
                 }
 
@@ -206,7 +206,7 @@ public class Solution {
                 stringBuilder.append(routes.get(i));
                 stringBuilder.append("\"");
 
-                if ((i % numOfSalesman == numOfSalesman - 1)) {
+                if ((i % numSalesmen == numSalesmen - 1)) {
                     stringBuilder.append("\n      ]");
                     stringBuilder.append(i == this.routes.size() - 1 ? "\n    }" : "\n    },");
                 }
@@ -217,7 +217,7 @@ public class Solution {
             final String replace = stringBuilder.toString().replace("\n,", "\n        ").replace("}{", "},\n{").replace("\",\"", "\",\n        \"");
 
             try {
-                Files.write(Paths.get("solution_d" + numberOfDepots + "s" + numOfSalesman + ".json"), replace.getBytes());
+                Files.write(Paths.get("solution_d" + numberOfDepots + "s" + numSalesmen + ".json"), replace.getBytes());
             } catch (IOException e) {
                 System.err.println("Unable to write json");
                 e.printStackTrace();
