@@ -38,23 +38,23 @@ public class App {
     }
 
     public static void doAllSolutions(Params params) {
-        System.out.println("**Random Solution without Heuristics**");
         AtomicReference<mTSP> mTSP = new AtomicReference<>(new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.RANDOM, false, params.getPlateNumberOfMainDepot()));
+        System.out.println("**Random Solution without Heuristics**");
         mTSP.get().currentSolution.print(params.getVerbose(), false, false);
         AtomicReference<edu.anadolu.core.mTSP> bestMTSP = mTSP;
 
-        System.out.println("\n**Random Solution with Heuristics**");
         mTSP.set(new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.RANDOM, true, params.getPlateNumberOfMainDepot()));
+        System.out.println("\n**Random Solution with Heuristics**");
         mTSP.get().currentSolution.print(params.getVerbose(), false, true);
         if (mTSP.get().currentSolution.cost < bestMTSP.get().currentSolution.cost) bestMTSP = mTSP;
 
-        System.out.println("\n**NN Solution without Heuristics**");
         mTSP.set(new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.NN, false, params.getPlateNumberOfMainDepot()));
+        System.out.println("\n**NN Solution without Heuristics**");
         mTSP.get().currentSolution.print(params.getVerbose(), false, false);
         if (mTSP.get().currentSolution.cost < bestMTSP.get().currentSolution.cost) bestMTSP = mTSP;
 
-        System.out.println("\n**NN Solution with Heuristics**");
         mTSP.set(new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.NN, true, params.getPlateNumberOfMainDepot()));
+        System.out.println("\n**NN Solution with Heuristics**");
         mTSP.get().currentSolution.print(params.getVerbose(), false, true);
         if (mTSP.get().currentSolution.cost < bestMTSP.get().currentSolution.cost) bestMTSP = mTSP;
 
