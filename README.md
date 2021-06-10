@@ -19,5 +19,5 @@ This application does both 4 solutions for once. You can easily change that valu
 * -m: maintain the main depot as main depot in NN solutions (default false)
 * -h: to see all the parameters
 For instance, you can use `java -jar mTSP.jar -d 7 -s 5 -v` to generate a route with using these approaches which has 7 depots and 5 salesmen per depot, and also application will print city names instead of indexes.
-![Footage 1](https://imgur.com/3Rkkh5k.png)
-![Footage 2](https://imgur.com/7HJWDEk.png)
+![Footage 1](https://imgur.com/Hl62zNZ.png)
+![Footage 2](https://i.imgur.com/hlkK7od.png)
