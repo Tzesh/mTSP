@@ -38,22 +38,22 @@ public class App {
     }
 
     public static void doAllSolutions(Params params) {
-        AtomicReference<mTSP> mTSP = new AtomicReference<>(new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.RANDOM, false, params.getPlateNumberOfMainDepot()));
+        AtomicReference<mTSP> mTSP = new AtomicReference<>(new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.RANDOM, false, params.getPlateNumberOfMainDepot(), params.getMaintainMain()));
         System.out.println("**Random Solution without Heuristics**");
         mTSP.get().currentSolution.print(params.getVerbose(), false, false);
         AtomicReference<edu.anadolu.core.mTSP> bestMTSP = mTSP;
 
-        mTSP.set(new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.RANDOM, true, params.getPlateNumberOfMainDepot()));
+        mTSP.set(new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.RANDOM, true, params.getPlateNumberOfMainDepot(), params.getMaintainMain()));
         System.out.println("\n**Random Solution with Heuristics**");
         mTSP.get().currentSolution.print(params.getVerbose(), false, true);
         if (mTSP.get().currentSolution.cost < bestMTSP.get().currentSolution.cost) bestMTSP = mTSP;
 
-        mTSP.set(new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.NN, false, params.getPlateNumberOfMainDepot()));
+        mTSP.set(new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.NN, false, params.getPlateNumberOfMainDepot(), params.getMaintainMain()));
         System.out.println("\n**NN Solution without Heuristics**");
         mTSP.get().currentSolution.print(params.getVerbose(), false, false);
         if (mTSP.get().currentSolution.cost < bestMTSP.get().currentSolution.cost) bestMTSP = mTSP;
 
-        mTSP.set(new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.NN, true, params.getPlateNumberOfMainDepot()));
+        mTSP.set(new mTSP(params.getNumDepots(), params.getNumSalesmen(), Approach.NN, true, params.getPlateNumberOfMainDepot(), params.getMaintainMain()));
         System.out.println("\n**NN Solution with Heuristics**");
         mTSP.get().currentSolution.print(params.getVerbose(), false, true);
         if (mTSP.get().currentSolution.cost < bestMTSP.get().currentSolution.cost) bestMTSP = mTSP;

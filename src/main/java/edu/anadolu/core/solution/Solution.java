@@ -77,8 +77,8 @@ public class Solution {
     }
 
 
-    public void swapNodesBetweenRoutes() {
-        if (routes.size() == 1) return;
+    public void swapNodesBetweenRoutes(boolean maintainMain) {
+        if (numDepots == 1 || maintainMain) return;
         final List<Integer> collect = rand.ints(0, routes.size())
                 .distinct()
                 .limit(2)
@@ -118,8 +118,8 @@ public class Solution {
         calculateCost();
     }
 
-    public void insertNodeBetweenRoutes() {
-        if (routes.size() == 1) return;
+    public void insertNodeBetweenRoutes(boolean maintainMain) {
+        if (numDepots == 1 || maintainMain) return;
         final List<Integer> collect = rand.ints(0, routes.size())
                 .distinct()
                 .limit(2)
@@ -153,7 +153,7 @@ public class Solution {
             final List<Integer> list = routes.get(i);
 
             if ((i % numSalesmen) == 0) {
-                System.out.println("Depot" + (i / numSalesmen + 1) + ": " + cities[depots.get(i / numSalesmen)]);
+                System.out.println("Depot" + (i / numSalesmen + 1) + ": " + (verbose ? cities[depots.get(i / numSalesmen)] : cityIndexes.indexOf(cities[depots.get(i / numSalesmen)])));
             }
 
             System.out.print(" Route" + (i % numSalesmen + 1) + ": ");

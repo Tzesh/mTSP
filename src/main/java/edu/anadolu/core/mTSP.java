@@ -18,7 +18,7 @@ public class mTSP {
     public static int insertNodeInRoute;
     public static int insertNodeBetweenRoutes;
 
-    public mTSP(int numDepots, int numSalesmen, Approach approach, boolean isHeuristic, int mainDepot) {
+    public mTSP(int numDepots, int numSalesmen, Approach approach, boolean isHeuristic, int mainDepot, boolean maintainMain) {
         switch (approach.getSolution()) {
             case "NNSolution":
                 currentSolution = new NNSolution(numDepots, numSalesmen, mainDepot - 1);
@@ -31,10 +31,10 @@ public class mTSP {
         }
         currentSolution.solve();
         if (isHeuristic)
-            IntStream.range(0, 5_000_000).parallel().forEach(a -> heuristicOperations());
+            IntStream.range(0, 5_000_000).parallel().forEach(a -> heuristicOperations(maintainMain));
     }
 
-    public synchronized void heuristicOperations() {
+    public synchronized void heuristicOperations(boolean maintainMain) {
         Solution copy = new Solution(currentSolution);
 
         int i = rand.nextInt(5);
@@ -49,7 +49,7 @@ public class mTSP {
                 swapHubWithNodeInRoute++;
         }
         if (i == 2) {
-            copy.swapNodesBetweenRoutes();
+            copy.swapNodesBetweenRoutes(maintainMain);
             if (copy.cost < currentSolution.cost)
                 swapNodesBetweenRoutes++;
         }
@@ -59,7 +59,7 @@ public class mTSP {
                 insertNodeInRoute++;
         }
         if (i == 4) {
-            copy.insertNodeBetweenRoutes();
+            copy.insertNodeBetweenRoutes(maintainMain);
             if (copy.cost < currentSolution.cost)
                 insertNodeBetweenRoutes++;
         }
