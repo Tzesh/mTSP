@@ -5,7 +5,7 @@ The multiple traveling salesman problem (mTSP) is a generalization of the well-k
 3. Nearest Neighbor solution: It is a Construction Heuristic it takes a city as parameter and makes that city the main depot in the first place. And then generates a path according to closest path that could be generated. Then subdivides the path into depots then routes. Main depot which is given as parameter should be center city (which has the minimum distance to all the cities except itself).
 4. Nearest Neighbor solution with Heuristic algorithms: Applies the same solution with Nearest Neighbor then does the Heuristic algorithms for 5.000.000 iterations as mentioned in Random Solution with Heuristics.
 
-In this project, we've tried to look for the best combination to solve this project. The substructure of the project belongs to '[mTSP](https://github.com/AnadoluUniversityCeng/multiple-tsp)'. We didn't fork the repository to let other CENG candidates to think about the problem and learn experience.
+In this project, we've tried to look for the best combination to solve this project. The substructure of the project belongs to '[mTSP](https://github.com/AnadoluUniversityCeng/multiple-tsp)'. We didn't fork the repository to let other CENG candidates to think about the problem and gain experience.
 
 For the tests that we've done so far, 'Nearest Neighbor solution with Heuristics algorithms' is the best solution that gives minimum cost. You can easily browse these solutions in 'example_solutions' folder.
 
